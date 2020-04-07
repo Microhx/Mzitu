@@ -33,7 +33,6 @@ class HtmlParser {
                                           getElementsByClass("postlist")?.get(0)?.
                                           getElementsByTag("li")
 
-
                 liListData?.forEach {item ->
                     val itemEntity = MeiziItem()
 

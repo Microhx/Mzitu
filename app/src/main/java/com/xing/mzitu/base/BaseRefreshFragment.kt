@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.xing.mzitu.R
 import com.xing.mzitu.adapter.BaseCommonAdapter
+import com.xing.mzitu.entity.ResponseLogicData
+import com.xing.mzitu.utils.BaseCommonUtils
 import com.xing.mzitu.utils.UIUtils
 import com.xing.mzitu.view.DefaultLoadMoreView
 import kotlinx.android.synthetic.main.fragment_base_refresh_layout.*
@@ -31,7 +33,6 @@ abstract class BaseRefreshFragment<T> : BaseFragment(), SwipeRefreshLayout.OnRef
 
     override fun afterViewCreated() {
         initRefreshLayout()
-
         initRecyclerView()
     }
 
@@ -92,12 +93,33 @@ abstract class BaseRefreshFragment<T> : BaseFragment(), SwipeRefreshLayout.OnRef
         requestLoadData(mCurrentPage)
     }
 
-    abstract fun <T> subClassInitAdapter(): BaseCommonAdapter<T>
+    abstract fun subClassInitAdapter(): BaseCommonAdapter<T>
 
     abstract fun requestLoadData(currentPage:Int)
 
+    protected fun parseData(logicData: ResponseLogicData<T>) {
+        val safeDataList = BaseCommonUtils.getSafeArrayList(logicData.dataList)
+
+        if(logicData.pageIndex <= FIRST_PAGE){
+            recyclerViewAdapter.replaceData(safeDataList)
+        }else{
+            recyclerViewAdapter.addData(safeDataList)
+            mCurrentPage ++
+        }
+
+        recyclerViewAdapter.loadMoreComplete()
+
+        if(safeDataList.size < ITEM_PAGE_SIZE){
+            recyclerViewAdapter.setEnableLoadMore(false)
+        }else{
+            recyclerViewAdapter.setEnableLoadMore(true)
+        }
+    }
+
     companion object {
         const val FIRST_PAGE = 1
+
+        const val ITEM_PAGE_SIZE = 12
     }
 
 }
