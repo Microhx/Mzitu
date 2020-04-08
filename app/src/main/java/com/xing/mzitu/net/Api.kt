@@ -24,8 +24,8 @@ interface Api {
         C.REFERER,
         C.USER_AGENT
     )
-    @GET("{path}")
-    suspend fun getMeituInfo(@Path("path") path:String) : Response<String>
+    @GET("{url}/page/{page}")
+    suspend fun getMeituInfo(@Path("url") url:String?, @Path("page") page:Int) : Response<String>
 
 
 }

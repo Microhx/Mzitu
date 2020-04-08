@@ -100,11 +100,11 @@ abstract class BaseRefreshFragment<T> : BaseFragment(), SwipeRefreshLayout.OnRef
     protected fun parseData(logicData: ResponseLogicData<T>) {
         val safeDataList = BaseCommonUtils.getSafeArrayList(logicData.dataList)
 
-        if(logicData.pageIndex <= FIRST_PAGE){
+        mCurrentPage ++
+        if(logicData.pageIndex < FIRST_PAGE){
             recyclerViewAdapter.replaceData(safeDataList)
         }else{
             recyclerViewAdapter.addData(safeDataList)
-            mCurrentPage ++
         }
 
         recyclerViewAdapter.loadMoreComplete()

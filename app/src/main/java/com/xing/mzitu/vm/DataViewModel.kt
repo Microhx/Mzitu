@@ -38,7 +38,7 @@ class DataViewModel : ViewModel() {
 
         viewModelScope.launch(Dispatchers.IO) {
 
-            val responseData = ApiClient.createService(Api::class.java).getMeituInfo("japan")
+            val responseData = ApiClient.createService(Api::class.java).getMeituInfo("japan",1)
 
             if(responseData.isSuccessful){
                 val resultDataList = HtmlParser.parseMeizituList(response = responseData.body()!!, type = 0)

@@ -33,10 +33,12 @@ class MainPageViewModel : BaseViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             postStartValue()
 
+            Log.e("TAG","=======${data.url}=======>>${data.page}")
+
             val requestPageUrl = "${data.url}/page/${data.page}"
             Log.d("TAG","request page: $requestPageUrl")
 
-            val responseData = ApiClient.createService(Api::class.java).getMeituInfo(requestPageUrl)
+            val responseData = ApiClient.createService(Api::class.java).getMeituInfo(data.url,data.page)
 
             checkResponseData(responseData, data)
         }
