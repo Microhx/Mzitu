@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="RadioView">
+        <attr name="radio_view_title" format="reference"/>
+        <attr name="radio_view_res" format="reference"/>
+        <attr name="radio_view_count" format="integer"/>
+    </declare-styleable>
+
+
+
+</resources>

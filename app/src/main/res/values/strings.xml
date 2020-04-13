@@ -1,3 +1,10 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ExtraTranslation">
+
     <string name="app_name">Mzitu</string>
+    <string name="main_page">主页</string>
+    <string name="category_page">分类</string>
+    <string name="footprint_page">足迹</string>
+    <string name="mine_page">我的</string>
+
+
 </resources>

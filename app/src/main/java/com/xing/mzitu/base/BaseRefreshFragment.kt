@@ -98,8 +98,9 @@ abstract class BaseRefreshFragment<T> : BaseFragment(), SwipeRefreshLayout.OnRef
     abstract fun requestLoadData(currentPage:Int)
 
     protected fun parseData(logicData: ResponseLogicData<T>) {
+        id_swipe_refresh_layout.isRefreshing = false
         val safeDataList = BaseCommonUtils.getSafeArrayList(logicData.dataList)
-
+        
         mCurrentPage ++
         if(logicData.pageIndex < FIRST_PAGE){
             recyclerViewAdapter.replaceData(safeDataList)
