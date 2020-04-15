@@ -1,8 +1,11 @@
 package com.xing.mzitu.utils
 
+import android.util.Log
+import com.xing.mzitu.entity.MeiziDetailItem
 import com.xing.mzitu.entity.MeiziItem
 import org.jsoup.Jsoup
 import java.lang.Exception
+import kotlin.math.max
 
 /**
  * created by xinghe
@@ -56,6 +59,61 @@ class HtmlParser {
             return resultDataList
         }
 
+
+        fun parseMeizituDetail(response:String, pageIndex:Int, totalPage:Int, needParseTotalPage:Boolean) : MeiziDetailItem {
+            val detailItem = MeiziDetailItem(pageIndex,totalPage,0,0,"")
+
+            try {
+                val document = Jsoup.parse(response)
+
+                val content = document.getElementsByClass("main")?.first()?.
+                              getElementsByClass("content")?.first()
+
+                //获取本页主图片
+                val aTagInfo = content?.
+                                getElementsByClass("main-image")?.first()?.
+                                getElementsByTag("img")?.first()
+
+                aTagInfo?.apply {
+                    detailItem.imageUrl = attr("src")
+                    detailItem.imageWidth = BaseCommonUtils.safeParseInt(attr("width"))
+                    detailItem.imageHeight = BaseCommonUtils.safeParseInt(attr("height"))
+                }
+
+                if(needParseTotalPage){
+                    //获取本页最大数据量
+                    val pageTagList = content?.getElementsByClass("pagenavi")?.first()?.getElementsByTag("a")
+                    if(BaseCommonUtils.checkCollection(pageTagList)){
+                        var maxPageIndex = C.FIRST_DETAIL_PAGE
+
+                        for(m in pageTagList!!) {
+                            val pageIndexValue = m.getElementsByTag("span")?.first()?.text()
+                            Log.d("TAG","get page tag index: $pageIndexValue")
+                            val tempIndex = BaseCommonUtils.safeParseInt(pageIndexValue)
+
+                            if(tempIndex > maxPageIndex){
+                                maxPageIndex = tempIndex
+                            }
+                        }
+
+                        Log.d("TAG", "at last ,get the max page tag : $maxPageIndex")
+
+                        detailItem.pageTotal = maxPageIndex
+
+                    }else{
+                        Log.e("TAG","get page tag error: $pageTagList")
+                    }
+                }
+
+            }catch (e : Exception){
+                //TODO
+                e.printStackTrace()
+            }
+
+            Log.d("TAG","the result is : $detailItem")
+
+            return detailItem
+        }
     }
 
 }

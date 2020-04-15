@@ -54,6 +54,11 @@ class C  {
 
         const val CATEGORY_PAGE_DAILY  = "all"
 
+
+        //------------------------------------------
+        const val FIRST_DETAIL_PAGE = 1
+
+
     }
 
 }

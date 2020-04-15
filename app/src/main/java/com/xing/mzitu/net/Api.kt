@@ -27,5 +27,11 @@ interface Api {
     @GET("{url}/page/{page}")
     suspend fun getMeituInfo(@Path("url") url:String?, @Path("page") page:Int) : Response<String>
 
+    @Headers(
+        C.ORIGIN,
+        C.REFERER,
+        C.USER_AGENT)
+    @GET("{url}/{page}")
+    suspend fun getMeituDetail(@Path("url") url:String, @Path("page") page:Int) : Response<String>
 
 }

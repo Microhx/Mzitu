@@ -34,5 +34,17 @@ public class BaseCommonUtils {
         return null == list ? new ArrayList<T>() : list;
     }
 
+    public static int safeParseInt(String strValue, int defaultValue){
+        try {
+            return Integer.parseInt(strValue);
+        }catch (NumberFormatException ignore){
+            return defaultValue;
+        }
+    }
+
+    public static int safeParseInt(String strValue){
+        return safeParseInt(strValue,0);
+    }
+
 
 }

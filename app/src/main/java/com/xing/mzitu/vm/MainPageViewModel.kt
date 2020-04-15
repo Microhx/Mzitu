@@ -9,6 +9,7 @@ import com.xing.mzitu.entity.RequestLogicData
 import com.xing.mzitu.entity.ResponseLogicData
 import com.xing.mzitu.net.Api
 import com.xing.mzitu.net.ApiClient
+import com.xing.mzitu.utils.HtmlParser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.ArrayList
@@ -33,7 +34,7 @@ class MainPageViewModel : BaseViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             postStartValue()
 
-            Log.e("TAG","=======${data.url}=======>>${data.page}")
+            Log.e("TAG", "=======${data.url}=======>>${data.page}")
 
             val requestPageUrl = "${data.url}/page/${data.page}"
             Log.d("TAG","request page: $requestPageUrl")
@@ -41,6 +42,7 @@ class MainPageViewModel : BaseViewModel() {
             val responseData = ApiClient.createService(Api::class.java).getMeituInfo(data.url,data.page)
 
             checkResponseData(responseData, data)
+
         }
     }
 

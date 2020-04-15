@@ -55,6 +55,17 @@ class MainPageFragment : BaseRefreshFragment<MeiziItem>() {
         mMainDataViewModel.fetchData(RequestLogicData(currentPage, requestUrl))
     }
 
+
+    override fun onItemChildClick(
+        adapter: BaseCommonAdapter<MeiziItem>,
+        item: MeiziItem?,
+        position: Int
+    ) {
+        item?.apply {
+            Log.d("TAG","${item.content_url} -- > ${item.image_desc}")
+        }
+    }
+    
     companion object {
 
         fun getInstance(requestUrl:String) : MainPageFragment{

@@ -23,6 +23,7 @@ import kotlinx.coroutines.launch
  *
  * desc :
  */
+@Deprecated("unused")
 class DataViewModel : ViewModel() {
 
     private val _meituList = MutableLiveData<List<MeiziItem>>()
