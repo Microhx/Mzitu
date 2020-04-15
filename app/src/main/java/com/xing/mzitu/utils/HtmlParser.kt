@@ -113,7 +113,6 @@ class HtmlParser {
                 }
 
             }catch (e : Exception){
-                //TODO
                 e.printStackTrace()
             }
 
