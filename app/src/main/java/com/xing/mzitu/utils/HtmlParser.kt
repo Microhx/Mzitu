@@ -59,6 +59,10 @@ class HtmlParser {
             return resultDataList
         }
 
+        /**
+         * this is the parse the detail logic
+         *
+         */
 
         fun parseMeizituDetail(response:String, pageIndex:Int, totalPage:Int, needParseTotalPage:Boolean) : MeiziDetailItem {
             val detailItem = MeiziDetailItem(pageIndex,totalPage,0,0,"")
