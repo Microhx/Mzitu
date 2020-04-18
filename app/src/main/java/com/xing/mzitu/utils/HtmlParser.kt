@@ -67,7 +67,7 @@ class HtmlParser {
          * needParseTotalPage : whether need to parse the total page when needed
          *
          */
-        fun parseMeizituDetail(response:String, pageIndex:Int, totalPage:Int, needParseTotalPage:Boolean) : MeiziDetailItem {
+        fun parseMeizituDetail(response:String?, pageIndex:Int, totalPage:Int, needParseTotalPage:Boolean) : MeiziDetailItem {
             val detailItem = MeiziDetailItem(pageIndex,totalPage,0,0,"")
 
             try {
@@ -114,6 +114,8 @@ class HtmlParser {
 
             }catch (e : Exception){
                 e.printStackTrace()
+                detailItem.pageTotal = -1
+
             }
 
             Log.d("TAG","the result is : $detailItem")

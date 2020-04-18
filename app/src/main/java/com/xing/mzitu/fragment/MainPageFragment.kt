@@ -11,6 +11,7 @@ import com.xing.mzitu.entity.MeiziItem
 import com.xing.mzitu.entity.RequestLogicData
 import com.xing.mzitu.entity.ResponseLogicData
 import com.xing.mzitu.logic.LoadingState
+import com.xing.mzitu.ui.MeiziPageDetailActivity
 import com.xing.mzitu.vm.DataViewModel
 import com.xing.mzitu.vm.MainPageViewModel
 
@@ -63,6 +64,9 @@ class MainPageFragment : BaseRefreshFragment<MeiziItem>() {
     ) {
         item?.apply {
             Log.d("TAG","${item.content_url} -- > ${item.image_desc}")
+
+            MeiziPageDetailActivity.start(context, "226647")
+
         }
     }
     
