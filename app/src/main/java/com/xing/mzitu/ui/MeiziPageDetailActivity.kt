@@ -35,7 +35,6 @@ class MeiziPageDetailActivity : AppCompatActivity() {
     private lateinit var mMeiziPageDetailViewModel : MeiziPageDetailViewModel
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         receiveIntent()
@@ -65,8 +64,13 @@ class MeiziPageDetailActivity : AppCompatActivity() {
 
         //数据加载
         mMeiziPageDetailViewModel.loadingTip.observe(this, Observer<String> { t -> id_tv_loading_info.text = t })
+
         //所有图片预览
-        mMeiziPageDetailViewModel.loadingDetailList.observe(this, Observer<List<MeiziDetailItem>> { t -> mMeiziPreviewListAdapter.replaceData(t!!) })
+        mMeiziPageDetailViewModel.loadingDetailList.observe(this, Observer<List<MeiziDetailItem>> {
+                //小图预览模式
+                t -> mMeiziPreviewListAdapter.replaceData(t!!)
+
+        })
 
         mMeiziPageDetailViewModel.fetch(mRelativeUrl ?: "")
     }

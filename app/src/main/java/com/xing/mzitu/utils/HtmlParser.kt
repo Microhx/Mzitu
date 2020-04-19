@@ -5,7 +5,6 @@ import com.xing.mzitu.entity.MeiziDetailItem
 import com.xing.mzitu.entity.MeiziItem
 import org.jsoup.Jsoup
 import java.lang.Exception
-import kotlin.math.max
 
 /**
  * created by xinghe
