@@ -59,6 +59,8 @@ class MeiziPageDetailViewModel : BaseViewModel() {
 
                             _loadingTip.postValue("第$m 页解析成功，还剩${meizituDetail.pageTotal - m}页数据等待解析")
 
+                            Thread.sleep(100)
+
                         }else{
                             _loadingTip.postValue("第$m 页数据解析失败,code:${pageResponse.code()}")
                         }

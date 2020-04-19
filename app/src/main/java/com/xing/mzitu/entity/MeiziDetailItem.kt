@@ -1,5 +1,9 @@
 package com.xing.mzitu.entity
 
+import android.os.Parcel
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
 /**
  * created by xinghe
  *
@@ -11,15 +15,18 @@ package com.xing.mzitu.entity
  *
  * desc :
  */
+
+@Parcelize
 data class MeiziDetailItem(var pageIndex:Int = 1,
                            var pageTotal:Int ,
                            var imageWidth:Int = 0,
                            var imageHeight:Int = 0,
-                           var imageUrl:String) {
+                           var imageUrl:String) : Parcelable {
 
     override fun toString(): String {
         return "MeiziDetailItem(pageIndex=$pageIndex, pageTotal=$pageTotal, " +
                 "imageWidth=$imageWidth, imageHeight=$imageHeight, imageUrl='$imageUrl')"
     }
+
 
 }
