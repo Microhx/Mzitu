@@ -5,6 +5,7 @@ import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Path
+import java.util.*
 
 /**
  * created by xinghe
@@ -33,5 +34,17 @@ interface Api {
         C.USER_AGENT)
     @GET("{url}/{page}")
     suspend fun getMeituDetail(@Path("url") url:String, @Path("page") page:Int) : Response<String>
+
+    suspend fun getNetWorkOneRequest() : Response<String>
+
+    suspend fun getNetWorkTwoRequest() : Response<Any>
+
+    suspend fun getDataOfList(): List<String>
+
+    suspend fun getData() : String
+
+
+
+
 
 }
