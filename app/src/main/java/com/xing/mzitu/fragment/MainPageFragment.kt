@@ -15,6 +15,7 @@ import com.xing.mzitu.ui.MeiziPageDetailActivity
 import com.xing.mzitu.utils.UrlParser
 import com.xing.mzitu.vm.DataViewModel
 import com.xing.mzitu.vm.MainPageViewModel
+import timber.log.Timber
 
 /**
  * created by xinghe
@@ -52,7 +53,7 @@ class MainPageFragment : BaseRefreshFragment<MeiziItem>() {
     override fun subClassInitAdapter(): BaseCommonAdapter<MeiziItem> = MainPageAdapter()
 
     override fun requestLoadData(currentPage: Int) {
-        Log.d("TAG","-----request load data-------->$currentPage")
+        Timber.d("-----request load data-------->$currentPage")
 
         mMainDataViewModel.fetchData(RequestLogicData(currentPage, requestUrl))
     }
@@ -64,7 +65,7 @@ class MainPageFragment : BaseRefreshFragment<MeiziItem>() {
         position: Int
     ) {
         item?.apply {
-            Log.d("TAG","${item.content_url} -- > ${item.image_desc}")
+            Timber.d("on item child click :${item.content_url} -- > ${item.image_desc}")
 
             MeiziPageDetailActivity.start(context, UrlParser.parseRelativeUrl(item.content_url ?: ""))
         }

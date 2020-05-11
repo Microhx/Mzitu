@@ -1,6 +1,5 @@
 package com.xing.mzitu.vm
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -9,10 +8,10 @@ import com.xing.mzitu.entity.RequestLogicData
 import com.xing.mzitu.entity.ResponseLogicData
 import com.xing.mzitu.net.Api
 import com.xing.mzitu.net.ApiClient
-import com.xing.mzitu.utils.HtmlParser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.ArrayList
+import timber.log.Timber
+import java.util.*
 
 /**
  * created by xinghe
@@ -34,15 +33,19 @@ class MainPageViewModel : BaseViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             postStartValue()
 
-            Log.e("TAG", "=======${data.url}=======>>${data.page}")
+            Timber.e( "=======${data.url}=======>>${data.page}")
 
             val requestPageUrl = "${data.url}/page/${data.page}"
-            Log.d("TAG","request page: $requestPageUrl")
+            Timber.d("request page: $requestPageUrl")
 
-            val responseData = ApiClient.createService(Api::class.java).getMeituInfo(data.url,data.page)
+            try{
+                val responseData = ApiClient.createService(Api::class.java).getMeituInfo(data.url,data.page)
+                checkResponseData(responseData, data)
 
-            checkResponseData(responseData, data)
+            }catch (e : Exception){
+                e.printStackTrace()
 
+            }
         }
     }
 

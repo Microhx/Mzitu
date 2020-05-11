@@ -4,6 +4,7 @@ import android.util.Log
 import com.xing.mzitu.entity.MeiziDetailItem
 import com.xing.mzitu.entity.MeiziItem
 import org.jsoup.Jsoup
+import timber.log.Timber
 import java.lang.Exception
 
 /**
@@ -94,7 +95,7 @@ class HtmlParser {
 
                         for(m in pageTagList!!) {
                             val pageIndexValue = m.getElementsByTag("span")?.first()?.text()
-                            Log.d("TAG","get page tag index: $pageIndexValue")
+                            Timber.d("get page tag index: $pageIndexValue")
                             val tempIndex = BaseCommonUtils.safeParseInt(pageIndexValue)
 
                             if(tempIndex > maxPageIndex){
@@ -102,12 +103,12 @@ class HtmlParser {
                             }
                         }
 
-                        Log.d("TAG", "at last ,get the max page tag : $maxPageIndex")
+                        Timber.d( "at last ,get the max page tag : $maxPageIndex")
 
                         detailItem.pageTotal = maxPageIndex
 
                     }else{
-                        Log.e("TAG","get page tag error: $pageTagList")
+                        Timber.e("get page tag error: $pageTagList")
                     }
                 }
 
@@ -117,7 +118,7 @@ class HtmlParser {
 
             }
 
-            Log.d("TAG","the result is : $detailItem")
+            Timber.d("the result is : $detailItem")
 
             return detailItem
         }

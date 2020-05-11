@@ -7,8 +7,11 @@ import com.xing.mzitu.entity.MeiziDetailItem
 import com.xing.mzitu.net.Api
 import com.xing.mzitu.net.ApiClient
 import com.xing.mzitu.utils.HtmlParser
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import retrofit2.Response
+import timber.log.Timber
+import java.lang.Exception
+
 
 /**
  * created by xinghe
@@ -43,14 +46,65 @@ class MeiziPageDetailViewModel : BaseViewModel() {
 
                 val meizituDetail = HtmlParser.parseMeizituDetail(responseDataString, 1, 0, true)
                 if(meizituDetail.pageTotal > 0){
+
                     val resultDetailList = ArrayList<MeiziDetailItem>()
                     resultDetailList.add(meizituDetail)
+                    _loadingTip.postValue("第一页解析成功，即将进行暴力破解")
 
-                    _loadingTip.postValue("第一页解析成功，返回图片值")
-
+                    val resultListDeferred = ArrayList<Deferred<Response<String>?>>()
                     //第二页已经解析了
                     for(m in 2..meizituDetail.pageTotal){
-                        val pageResponse = ApiClient.createService(Api::class.java).getMeituDetail(url,m)
+                        val justOneRequest = async {
+
+                            try{
+                                ApiClient.createService(Api::class.java).getMeituDetail(url,m)
+                            }catch (e : Exception){
+                                Timber.e("some error has occur : $e")
+                                null
+                            }
+                        }
+                        resultListDeferred.add(justOneRequest)
+                    }
+
+                    //等待全部数据解析完成
+                    val awaitAll = resultListDeferred.awaitAll()
+
+                    //遍历数据
+                    for((index,m) in awaitAll.withIndex()) {
+                        checkSingData(m,index + 1, meizituDetail.pageTotal, resultDetailList)
+                    }
+
+                    _loadingTip.postValue("共${meizituDetail.pageTotal}页数据解析成功，请欣赏")
+                    _loadingDetailList.postValue(resultDetailList)
+
+                }else{
+                    _loadingTip.postValue("获取妹子图totalPage失败，请检查程序")
+                }
+
+            }else{
+                _loadingTip.postValue("获取数据异常，异常码为:${responseData.code()}")
+            }
+        }
+    }
+
+    private fun checkSingData(pageResponse: Response<String>?, currentPage: Int, totalPage:Int, resultDetailList: ArrayList<MeiziDetailItem>){
+        if(pageResponse != null && pageResponse.isSuccessful){
+            val pageResponseString = pageResponse.body()
+            val pageMeizituDetail = HtmlParser.parseMeizituDetail(pageResponseString, currentPage, totalPage, false)
+
+            resultDetailList.add(pageMeizituDetail)
+
+        }else{
+            _loadingTip.postValue("第$currentPage 页数据解析失败,code:${pageResponse?.code()}")
+        }
+
+    }
+}
+
+
+/*
+
+val pageResponse = ApiClient.createService(Api::class.java).getMeituDetail(url,m)
                         if(pageResponse.isSuccessful){
                             val pageResponseString = pageResponse.body()
                             val pageMeizituDetail = HtmlParser.parseMeizituDetail(pageResponseString, m, meizituDetail.pageTotal, false)
@@ -64,20 +118,5 @@ class MeiziPageDetailViewModel : BaseViewModel() {
                         }else{
                             _loadingTip.postValue("第$m 页数据解析失败,code:${pageResponse.code()}")
                         }
-                    }
 
-                    _loadingTip.postValue("共${meizituDetail.pageTotal}页数据解析成功，请欣赏")
-
-                    _loadingDetailList.postValue(resultDetailList)
-
-                }else{
-                    _loadingTip.postValue("获取妹子图totalPage失败，请检查程序")
-                }
-
-            }else{
-                _loadingTip.postValue("获取数据异常，异常码为:${responseData.code()}")
-            }
-        }
-    }
-
-}
+ */
