@@ -10,6 +10,7 @@ import com.xing.mzitu.fragment.AbstractTabFragment
 import com.xing.mzitu.fragment.CategoryTabFragment
 import com.xing.mzitu.fragment.HomeTabFragment
 import com.xing.mzitu.fragment.MainPageFragment
+import com.xing.mzitu.proxy.testProxy
 import com.xing.mzitu.view.tab.RadioLayout
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -29,6 +30,8 @@ class MainActivity : AppCompatActivity(), RadioLayout.onRadioButtonClickListener
         }
 
         id_radio_layout.setRadioButtonClickListener(this)
+
+        testProxy()
     }
 
     inner class MainPageFragmentAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {

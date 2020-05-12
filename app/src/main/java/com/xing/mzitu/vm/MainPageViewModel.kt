@@ -8,10 +8,18 @@ import com.xing.mzitu.entity.RequestLogicData
 import com.xing.mzitu.entity.ResponseLogicData
 import com.xing.mzitu.net.Api
 import com.xing.mzitu.net.ApiClient
+import com.xing.mzitu.proxy.testProxy
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import timber.log.Timber
+import java.net.InetSocketAddress
+import java.net.Proxy
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 /**
  * created by xinghe
@@ -33,7 +41,8 @@ class MainPageViewModel : BaseViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             postStartValue()
 
-            Timber.e( "=======${data.url}=======>>${data.page}")
+            val response = async { testProxy() }
+
 
             val requestPageUrl = "${data.url}/page/${data.page}"
             Timber.d("request page: $requestPageUrl")
