@@ -7,6 +7,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 /**
@@ -26,7 +27,7 @@ object ApiClient {
     private val okHttpClient by lazy { OkHttpClient() }
 
     private val retrofit: Retrofit by lazy {
-        Log.e("AppClient", "Creating Retrofit Client")
+        Timber.d("Creating Retrofit Client")
 
         val builder = Retrofit.Builder()
             .baseUrl(C.BASE_URL)

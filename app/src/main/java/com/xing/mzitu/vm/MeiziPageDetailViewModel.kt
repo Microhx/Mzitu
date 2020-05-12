@@ -55,7 +55,6 @@ class MeiziPageDetailViewModel : BaseViewModel() {
                     //第二页已经解析了
                     for(m in 2..meizituDetail.pageTotal){
                         val justOneRequest = async {
-
                             try{
                                 ApiClient.createService(Api::class.java).getMeituDetail(url,m)
                             }catch (e : Exception){
@@ -63,6 +62,7 @@ class MeiziPageDetailViewModel : BaseViewModel() {
                                 null
                             }
                         }
+
                         resultListDeferred.add(justOneRequest)
                     }
 
@@ -101,22 +101,3 @@ class MeiziPageDetailViewModel : BaseViewModel() {
     }
 }
 
-
-/*
-
-val pageResponse = ApiClient.createService(Api::class.java).getMeituDetail(url,m)
-                        if(pageResponse.isSuccessful){
-                            val pageResponseString = pageResponse.body()
-                            val pageMeizituDetail = HtmlParser.parseMeizituDetail(pageResponseString, m, meizituDetail.pageTotal, false)
-
-                            resultDetailList.add(pageMeizituDetail)
-
-                            _loadingTip.postValue("第$m 页解析成功，还剩${meizituDetail.pageTotal - m}页数据等待解析")
-
-                            Thread.sleep(100)
-
-                        }else{
-                            _loadingTip.postValue("第$m 页数据解析失败,code:${pageResponse.code()}")
-                        }
-
- */
